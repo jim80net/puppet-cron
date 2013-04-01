@@ -23,5 +23,17 @@ class cron::install {
       ensure => installed,
       name   => $package_name;
   }
+
+  $service_name= $operatingsystem ? {
+    /(RedHat|CentOS|OracleLinux)/ => 'crond',
+    default                       => 'cron',
+  }
+
+  service {
+  	'cron':
+		ensure => running,
+		name   => $service_name;
+  }
+
 }
 
