@@ -14,8 +14,12 @@
 
 class cron::install {
   $package_name = $operatingsystem ? {
-    /(RedHat|CentOS|OracleLinux)/ => 'cronie',
-    default                       => 'cron',
+    /(RedHat|CentOS|OracleLinux)/: {
+           '5'     =>  'vixie-cron',
+           default =>  'cronie',
+    }
+
+    default  => 'cron',
   }
 
   package {
