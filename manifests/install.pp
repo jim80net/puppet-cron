@@ -13,13 +13,15 @@
 #   Instead, use the *cron* class.
 
 class cron::install {
-  $package_name = $operatingsystem ? {
-    /(RedHat|CentOS|OracleLinux)/: {
+  case $operatingsystem  {
+    /(RedHat|CentOS|OracleLinux)/:  {
+        $package_name = $::lsbmajdistrelease ? {
            '5'     =>  'vixie-cron',
            default =>  'cronie',
+        }
     }
 
-    default  => 'cron',
+    default: { $package_name =  'cron' } 
   }
 
   package {
